@@ -1,7 +1,7 @@
 
 import { TextField, Box } from "@mui/material";
 
-const SearchBar = ({ filter, onFilterChange }) => {
+const SearchBox = ({ filter, onFilterChange }) => {
   return (
     <Box my={2}>
       <TextField
@@ -15,4 +15,4 @@ const SearchBar = ({ filter, onFilterChange }) => {
   );
 };
 
-export default SearchBar;
+export default SearchBox;

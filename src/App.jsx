@@ -1,52 +1,37 @@
-import { useEffect, useState } from "react";
-import IconList from "./components/IconList/IconList";
-import IconForm from "./components/IconForm/IconForm";
-import SearchBar from "./components/SearchBar/SearchBar";
-import { Container, Typography, CssBaseline } from "@mui/material";
+import { useState } from "react";
+import IconList from "./components/IconList";
+import IconForm from "./components/IconForm";
+import SearchBar from "./components/SearchBar";
+import { Container, Typography, CssBaseline, Button, Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#770007",
-    },
-    secondary: {
-      main: "#ebba62",
-    },
-    error: {
-      main: "#ff0000",
-    },
-    background: {
-      default: "#f3f3f3",
-    },
-  },
-  typography: {
-    fontFamily: "Arial, sans-serif",
-  },
-});
-
 const App = () => {
-
-  useEffect(() => {
-    document.title = "Ікони";
-  }, []);  
-
-  const getInitialIcons = () => {
-    const savedIcons = localStorage.getItem("icons");
-    return savedIcons
-      ? JSON.parse(savedIcons)
-      : [
-          { id: "id-1", name: "Свята Трійця", number: "001", clothes: "1" },
-          { id: "id-2", name: "Воскресіння Христове", number: "002", clothes: "1" },
-        ];
-  };
-
-  const [icons, setIcons] = useState(getInitialIcons);
+  const [icons, setIcons] = useState([
+    { id: "id-1", name: "Свята Трійця", number: "001", clothes: "1" },
+    { id: "id-2", name: "Воскресіння Христове", number: "002", clothes: "1" },
+  ]);
   const [filter, setFilter] = useState("");
+  const [collapsed, setCollapsed] = useState(false); // Стан для згортання списку
 
-  useEffect(() => {
-    localStorage.setItem("icons", JSON.stringify(icons));
-  }, [icons]);
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#770007",
+      },
+      secondary: {
+        main: "#ebba62",
+      },
+      error: {
+        main: "#ff0000",
+      },
+      background: {
+        default: "#f3f3f3",
+      },
+    },
+    typography: {
+      fontFamily: "Arial, sans-serif",
+    },
+  });
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -73,10 +58,21 @@ const App = () => {
         </Typography>
         <IconForm addIcon={addIcon} />
         <SearchBar filter={filter} onFilterChange={handleFilterChange} />
-        <IconList icons={filteredIcons} onDeleteIcon={deleteIcon} />
+        <Box display="flex" justifyContent="center" sx={{ mt: 2, mb: 2 }}>
+          <Button 
+            variant="contained" 
+            color="secondary" 
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            {collapsed ? "Розгорнути список" : "Згорнути список"}
+          </Button>
+        </Box>
+        {!collapsed && filteredIcons.length > 0 && (
+          <IconList icons={filteredIcons} onDeleteIcon={deleteIcon} />
+        )}
       </Container>
     </ThemeProvider>
   );
-};
+}
 
-export default App;
+export default App
