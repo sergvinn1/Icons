@@ -2,7 +2,7 @@ import { useState } from "react";
 import IconList from "./components/IconList";
 import IconForm from "./components/IconForm";
 import SearchBar from "./components/SearchBar";
-import Auth from "./components/Auth";
+/*import Auth from "./components/Auth";*/
 import { Container, Typography, CssBaseline, Button, Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -13,7 +13,7 @@ const App = () => {
   ]);
   const [filter, setFilter] = useState("");
   const [collapsed, setCollapsed] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Стан для авторизації
+  /*const [isAuthenticated, setIsAuthenticated] = useState(false);*/ // Стан для авторизації
 
   const theme = createTheme({
     palette: {
@@ -51,9 +51,9 @@ const App = () => {
     icon.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  if (!isAuthenticated) {
+ /* if (!isAuthenticated) {
     return <Auth onAuthSuccess={() => setIsAuthenticated(true)} />;
-  }
+  }*/
 
   return (
     <ThemeProvider theme={theme}>
