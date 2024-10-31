@@ -2,6 +2,7 @@ import { useState } from "react";
 import IconList from "./components/IconList";
 import IconForm from "./components/IconForm";
 import SearchBar from "./components/SearchBar";
+import Auth from "./components/Auth";
 import { Container, Typography, CssBaseline, Button, Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -11,7 +12,8 @@ const App = () => {
     { id: "id-2", name: "Воскресіння Христове", number: "002", clothes: "1" },
   ]);
   const [filter, setFilter] = useState("");
-  const [collapsed, setCollapsed] = useState(false); // Стан для згортання списку
+  const [collapsed, setCollapsed] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Стан для авторизації
 
   const theme = createTheme({
     palette: {
@@ -49,13 +51,19 @@ const App = () => {
     icon.name.toLowerCase().includes(filter.toLowerCase())
   );
 
+  if (!isAuthenticated) {
+    return <Auth onAuthSuccess={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="sm" sx={{ padding: 2, backgroundColor: "white", borderRadius: 2, boxShadow: 3, mt: 4 }}>
-        <Typography variant="h4" color="primary" align="center" gutterBottom>
-          Ікони
-        </Typography>
+        <Box display="flex" justifyContent="center" mb={2}>
+          <Typography variant="h4" color="primary">
+            Ікони
+          </Typography>
+        </Box>
         <IconForm addIcon={addIcon} />
         <SearchBar filter={filter} onFilterChange={handleFilterChange} />
         <Box display="flex" justifyContent="center" sx={{ mt: 2, mb: 2 }}>
@@ -73,6 +81,6 @@ const App = () => {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default App
+export default App;
